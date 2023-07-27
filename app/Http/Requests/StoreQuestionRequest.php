@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Closure;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreQuestionRequest extends FormRequest
@@ -22,7 +23,15 @@ class StoreQuestionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'question' => 'required|min:10',
+            'question' => [
+                'required',
+                'min:10',
+                function (string $attribute, mixed $value, Closure $fail) {
+                    if ($value[strlen($value) - 1] !== '?') {
+                        $fail("question must end with a question mark");
+                    }
+                },
+            ],
         ];
     }
 }
