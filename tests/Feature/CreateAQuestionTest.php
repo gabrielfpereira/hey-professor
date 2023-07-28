@@ -17,6 +17,23 @@ it('should creating a question bigger than 255 characters ', function () {
     assertDatabaseHas('questions', ['question' => str_repeat('a', 260) . '?']);
 });
 
+it('should be able create a question with draft', function () {
+    $user = User::factory()->create();
+    actingAs($user);
+
+    post(route('question.store'), [
+        'question' => str_repeat('a', 260) . '?',
+    ]);
+
+    assertDatabaseHas(
+        'questions',
+        [
+            'question' => str_repeat('a', 260) . '?',
+            'draft'    => true,
+        ]
+    );
+});
+
 it('should have end with a question mark', function () {
     $user = User::factory()->create();
     actingAs($user);

@@ -29,7 +29,12 @@ class QuestionController extends Controller
      */
     public function store(StoreQuestionRequest $request): \Illuminate\Http\RedirectResponse
     {
-        Question::query()->create($request->all());
+        Question::query()->create(
+            array_merge(
+                $request->all(),
+                ['draft' => true]
+            )
+        );
 
         return redirect()->route('dashboard');
     }

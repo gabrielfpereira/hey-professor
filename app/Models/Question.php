@@ -10,7 +10,11 @@ class Question extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['question'];
+    protected $fillable = ['question', 'draft'];
+
+    protected $casts = [
+        'draft' => 'boolean',
+    ];
 
     /**
      * @return HasMany<Vote>
