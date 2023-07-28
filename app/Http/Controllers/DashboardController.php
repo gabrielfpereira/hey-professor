@@ -9,7 +9,7 @@ class DashboardController extends Controller
 {
     public function index(): View
     {
-        $questions = Question::all();
+        $questions = Question::withSum('votes', 'like')->withSum('votes', 'unlike')->get();
 
         return view('dashboard', compact('questions'));
     }
