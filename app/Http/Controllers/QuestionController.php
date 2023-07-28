@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreQuestionRequest;
-use App\Models\{Question, Vote};
+use App\Models\{Question, User, Vote};
 use Illuminate\Http\{RedirectResponse, Request};
 
 class QuestionController extends Controller
