@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreQuestionRequest;
-use App\Models\Question;
-use Illuminate\Http\Request;
+use App\Models\{Question, Vote};
+use Illuminate\Http\{RedirectResponse, Request};
 
 class QuestionController extends Controller
 {
@@ -65,4 +65,11 @@ class QuestionController extends Controller
     // {
     //     //
     // }
+
+    public function like(Question $question): RedirectResponse
+    {
+        auth()->user()->like($question);
+
+        return redirect()->back();
+    }
 }
