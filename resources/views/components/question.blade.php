@@ -15,9 +15,13 @@
             </button>
         </form>
 
-        <a href="{{ route('question.like', $question)}}" class="flex items-start space-x-1">
-            <x-icons.thumbs-down class="w-6 h-6 text-red-400 cursor-pointer hover:text-red-300"/>
-            <span class="text-red-400">5</span>
-        </a>
+        <form action="{{ route('question.unlike', $question) }}" method="POST">
+            @csrf
+            @method('POST')
+            <button class="flex items-start space-x-1">
+                <x-icons.thumbs-down class="w-6 h-6 text-red-400 cursor-pointer hover:text-red-300"/>
+                <span class="text-red-400">{{ $question->unlikes }}</span>
+            </button>
+        </form>
     </div>
 </div>

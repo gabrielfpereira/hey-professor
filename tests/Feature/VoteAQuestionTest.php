@@ -35,3 +35,22 @@ it('should not be able vote a question more than once', function () {
 
     expect($user->votes($question)->count())->toBe(1);
 });
+
+it('should be able unlike a question', function () {
+    $user     = User::factory()->create();
+    $question = Question::factory()->create();
+
+    actingAs($user);
+
+    $reponse = post(route('question.unlike', $question));
+
+    assertDatabaseHas('votes', [
+        'user_id'     => $user->id,
+        'question_id' => $question->id,
+        'like'        => 0,
+        'unlike'      => 1,
+
+    ]);
+
+    $reponse->assertRedirect();
+});

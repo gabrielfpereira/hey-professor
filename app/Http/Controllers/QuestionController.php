@@ -75,4 +75,14 @@ class QuestionController extends Controller
 
         return redirect()->back();
     }
+
+    public function unlike(Question $question): RedirectResponse
+    {
+        /** @var User $user  */
+        $user = auth()->user();
+
+        $user->unlike($question);
+
+        return redirect()->back();
+    }
 }

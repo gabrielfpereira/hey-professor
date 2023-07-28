@@ -22,6 +22,14 @@ class Question extends Model
     }
 
     /**
+     * @return Attribute<Vote, never>
+     */
+    public function unlikes(): Attribute
+    {
+        return new Attribute(fn () => $this->votes()->sum('unlike'));
+    }
+
+    /**
      * @return HasMany<Vote>
      */
     public function votes(): HasMany
