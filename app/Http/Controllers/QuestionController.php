@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreQuestionRequest;
 use App\Models\{Question, User, Vote};
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\{RedirectResponse, Request, Response};
 
 class QuestionController extends Controller
@@ -11,10 +12,15 @@ class QuestionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    // public function index()
-    // {
-    //     //
-    // }
+    public function index(): View
+    {
+        /**@var User $user */
+        $user = auth()->user();
+
+        $questions = $user->questions()->get();
+
+        return view('questions.index', compact('questions'));
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -39,7 +45,7 @@ class QuestionController extends Controller
             )
         );
 
-        return redirect()->route('dashboard');
+        return redirect()->back();
     }
 
     /**
