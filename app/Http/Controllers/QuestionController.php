@@ -90,4 +90,11 @@ class QuestionController extends Controller
 
         return redirect()->back();
     }
+
+    public function publish(Question $question): RedirectResponse
+    {
+        $question->update(['draft' => false]);
+
+        return redirect()->back();
+    }
 }
