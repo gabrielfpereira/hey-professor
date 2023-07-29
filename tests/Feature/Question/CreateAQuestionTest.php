@@ -57,3 +57,11 @@ it('should have minimum 10 characters', function () {
     $request->assertSessionHasErrors('question', __('validation.min.string', ['min' => 10, 'atribute' => 'question']));
     assertDatabaseCount('questions', 0);
 });
+
+test('only user authenticated can create a question', function () {
+
+    post(route('question.store'), [
+        'question' => str_repeat('a', 260) . '?',
+    ])->assertRedirect(route('login'));
+
+});
