@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreQuestionRequest;
 use App\Models\{Question, User, Vote};
-use Illuminate\Http\{RedirectResponse, Request};
+use Illuminate\Http\{RedirectResponse, Request, Response};
 
 class QuestionController extends Controller
 {
@@ -32,7 +32,10 @@ class QuestionController extends Controller
         Question::query()->create(
             array_merge(
                 $request->all(),
-                ['draft' => true]
+                [
+                    'draft'      => true,
+                    'created_by' => auth()->user()->id,
+                ]
             )
         );
 
@@ -91,8 +94,10 @@ class QuestionController extends Controller
         return redirect()->back();
     }
 
-    public function publish(Question $question): RedirectResponse
+    public function publish(Question $question): RedirectResponse|Response
     {
+        $this->authorize('publish', $question);
+
         $question->update(['draft' => false]);
 
         return redirect()->back();
