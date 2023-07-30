@@ -4,17 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreQuestionRequest;
 use App\Models\{Question, User, Vote};
-use Illuminate\Http\{RedirectResponse, Request};
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\{RedirectResponse, Request, Response};
 
 class QuestionController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    // public function index()
-    // {
-    //     //
-    // }
+    public function index(): View
+    {
+        /**@var User $user */
+        $user = auth()->user();
+
+        $questions = $user->questions()->get();
+
+        return view('questions.index', compact('questions'));
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -29,9 +35,17 @@ class QuestionController extends Controller
      */
     public function store(StoreQuestionRequest $request): \Illuminate\Http\RedirectResponse
     {
-        Question::query()->create($request->all());
+        Question::query()->create(
+            array_merge(
+                $request->all(),
+                [
+                    'draft'      => true,
+                    'created_by' => auth()->user()->id,
+                ]
+            )
+        );
 
-        return redirect()->route('dashboard');
+        return redirect()->back();
     }
 
     /**
@@ -61,10 +75,14 @@ class QuestionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    // public function destroy(string $id)
-    // {
-    //     //
-    // }
+    public function destroy(Question $question): RedirectResponse
+    {
+        $this->authorize('destroy', $question);
+
+        $question->delete();
+
+        return redirect()->back();
+    }
 
     public function like(Question $question): RedirectResponse
     {
@@ -82,6 +100,15 @@ class QuestionController extends Controller
         $user = auth()->user();
 
         $user->unlike($question);
+
+        return redirect()->back();
+    }
+
+    public function publish(Question $question): RedirectResponse|Response
+    {
+        $this->authorize('publish', $question);
+
+        $question->update(['draft' => false]);
 
         return redirect()->back();
     }
