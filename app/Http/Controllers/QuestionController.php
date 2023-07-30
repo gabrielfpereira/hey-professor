@@ -69,10 +69,16 @@ class QuestionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    // public function update(Request $request, string $id)
-    // {
-    //     //
-    // }
+    public function update(StoreQuestionRequest $request, Question $question): RedirectResponse
+    {
+        $this->authorize('update', $question);
+
+        $question->update(
+            $request->all()
+        );
+
+        return redirect()->back();
+    }
 
     /**
      * Remove the specified resource from storage.
