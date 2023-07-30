@@ -24,3 +24,19 @@ it('should make shure only draft questions can be edited', function () {
     get(route('question.edit', $draftQuestion))->assertSuccessful();
     get(route('question.edit', $question))->assertForbidden();
 });
+
+it('should make shure that the question is editable by the user', function () {
+    $ownerUser   = User::factory()->create();
+    $unkanonUser = User::factory()->create();
+
+    $question = Question::factory()->create(['draft' => true, 'created_by' => $ownerUser]);
+
+    actingAs($unkanonUser);
+    get(route('question.edit', $question))
+    ->assertForbidden();
+
+    actingAs($ownerUser);
+    get(route('question.edit', $question))
+    ->assertSuccessful();
+
+});
