@@ -75,10 +75,14 @@ class QuestionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    // public function destroy(string $id)
-    // {
-    //     //
-    // }
+    public function destroy(Question $question): RedirectResponse
+    {
+        $this->authorize('destroy', $question);
+
+        $question->delete();
+
+        return redirect()->back();
+    }
 
     public function like(Question $question): RedirectResponse
     {
