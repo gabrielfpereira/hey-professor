@@ -59,18 +59,26 @@ class QuestionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    // public function edit(string $id)
-    // {
-    //     //
-    // }
+    public function edit(Question $question): View
+    {
+        $this->authorize('update', $question);
+
+        return view('questions.edit', compact('question'));
+    }
 
     /**
      * Update the specified resource in storage.
      */
-    // public function update(Request $request, string $id)
-    // {
-    //     //
-    // }
+    public function update(StoreQuestionRequest $request, Question $question): RedirectResponse
+    {
+        $this->authorize('update', $question);
+
+        $question->update(
+            $request->all()
+        );
+
+        return redirect()->route('question.index');
+    }
 
     /**
      * Remove the specified resource from storage.

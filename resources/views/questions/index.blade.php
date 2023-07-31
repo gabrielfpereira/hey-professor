@@ -52,7 +52,7 @@
                                         {{ $question->question }}
                                     </th>
                                     
-                                    <td class="px-6 py-4 text-right">
+                                    <td class="px-6 py-4 text-left">
 
                                         <form action="{{ route('question.publish', $question) }}" method="POST">
                                             @csrf
@@ -69,6 +69,10 @@
                                                 Delete
                                             </button>
                                         </form>
+
+                                        <a href="{{ route('question.edit', $question) }}" class="font-medium text-yellow-600 dark:text-yellow-500 hover:underline">
+                                            Edit
+                                        </a>
                                     </td>
                                 </tr>                
                                 @endforeach
@@ -102,7 +106,7 @@
                                         {{ $question->question }}
                                     </th>
                                     
-                                    <td class="px-6 py-4 text-right">
+                                    <td class="px-6 py-4 text-left">
                                         <form action="{{ route('question.destroy', $question) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
