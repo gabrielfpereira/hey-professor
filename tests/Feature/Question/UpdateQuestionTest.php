@@ -61,7 +61,7 @@ it('should have end with a question mark', function () {
     $question->refresh();
 
     $request->assertSessionHasErrors('question', 'question must end with a question mark');
-    expect($question)->question->toBe($question->question);
+    assertDatabaseHas('questions', ['question' => $question->question]);
 });
 
 it('should have minimum 10 characters', function () {
@@ -77,5 +77,5 @@ it('should have minimum 10 characters', function () {
     $question->refresh();
 
     $request->assertSessionHasErrors('question', __('validation.min.string', ['min' => 10, 'atribute' => 'question']));
-    expect($question)->question->toBe($question->question);
+    assertDatabaseHas('questions', ['question' => $question->question]);
 });
