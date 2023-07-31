@@ -9,7 +9,7 @@ class DashboardController extends Controller
 {
     public function index(): View
     {
-        $questions = Question::withSum('votes', 'like')->withSum('votes', 'unlike')->get();
+        $questions = Question::withSum('votes', 'like')->withSum('votes', 'unlike')->paginate();
 
         return view('dashboard', compact('questions'));
     }

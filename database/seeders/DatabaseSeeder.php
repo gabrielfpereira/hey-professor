@@ -21,6 +21,6 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@admin.com',
         ]);
 
-        Question::factory(10)->create();
+        Question::factory(50)->create();
     }
 }
