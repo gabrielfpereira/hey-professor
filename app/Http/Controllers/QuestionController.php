@@ -77,7 +77,7 @@ class QuestionController extends Controller
             $request->all()
         );
 
-        return redirect()->back();
+        return redirect()->route('question.index');
     }
 
     /**
