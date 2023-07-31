@@ -28,3 +28,30 @@ it('should paginate the questions results', function () {
             return $value instanceof \Illuminate\Pagination\LengthAwarePaginator;
         });
 });
+
+it('should order the questions results for like and unlike votes', function () {
+    $user       = User::factory()->create();
+    $secondUser = User::factory()->create();
+
+    Question::factory(5)->create();
+
+    $mostLikeQuestion   = Question::find(3);
+    $mostUnlikeQuestion = Question::find(1);
+
+    $user->like($mostLikeQuestion);
+    $secondUser->unlike($mostUnlikeQuestion);
+
+    actingAs($user);
+
+    get(route('dashboard'))
+        ->assertViewHas('questions', function ($questions) use ($mostLikeQuestion, $mostUnlikeQuestion) {
+            expect($questions)
+                ->first()->id
+                ->toBe($mostLikeQuestion->id)
+            ->and($questions)
+                ->last()->id
+                ->toBe($mostUnlikeQuestion->id);
+
+            return true;
+        });
+});
