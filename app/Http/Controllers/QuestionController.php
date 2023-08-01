@@ -18,8 +18,9 @@ class QuestionController extends Controller
         $user = auth()->user();
 
         $questions = $user->questions()->get();
+        $archived  = $user->questions()->onlyTrashed()->get();
 
-        return view('questions.index', compact('questions'));
+        return view('questions.index', compact('questions', 'archived'));
     }
 
     /**
