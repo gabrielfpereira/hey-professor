@@ -62,7 +62,7 @@
                                             </button>
                                         </form>
 
-                                        <form action="{{ route('question.destroy', $question) }}" method="POST">
+                                        <form action="{{ route('question.destroy', $question) }}" method="POST" onsubmit="return confirm('Are you sure?')">
                                             @csrf
                                             @method('DELETE')
                                             <button class="font-medium text-red-600 dark:text-red-500 hover:underline">
@@ -107,11 +107,61 @@
                                     </th>
                                     
                                     <td class="px-6 py-4 text-left">
-                                        <form action="{{ route('question.destroy', $question) }}" method="POST">
+                                        <form action="{{ route('question.destroy', $question) }}" method="POST" onsubmit="return confirm('Are you sure?')">
                                             @csrf
                                             @method('DELETE')
                                             <button class="font-medium text-red-600 dark:text-red-500 hover:underline">
                                                 Delete
+                                            </button>
+                                        </form>
+
+                                        <form action="{{ route('question.archive', $question) }}" method="POST">
+                                            @csrf
+                                            @method('PUT')
+                                            <button class="font-medium text-yellow-600 dark:text-yellow-500 hover:underline">
+                                                Archive
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>                
+                                @endforeach
+                                
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <hr class="my-4 border-gray-600">
+
+                    <h2>Archived</h2>
+
+                        
+                    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3">
+                                        Question
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Actions
+                                    </th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($archived as $question)
+                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                        {{ $question->question }}
+                                    </th>
+                                    
+                                    <td class="px-6 py-4 text-left">
+                                        
+                                        <form action="{{ route('question.restore', $question) }}" method="POST">
+                                            @csrf
+                                            @method('PUT')
+                                            <button class="font-medium text-green-600 dark:text-green-500 hover:underline">
+                                                Restore
                                             </button>
                                         </form>
                                     </td>

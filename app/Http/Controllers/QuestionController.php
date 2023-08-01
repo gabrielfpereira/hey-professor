@@ -18,8 +18,9 @@ class QuestionController extends Controller
         $user = auth()->user();
 
         $questions = $user->questions()->get();
+        $archived  = $user->questions()->onlyTrashed()->get();
 
-        return view('questions.index', compact('questions'));
+        return view('questions.index', compact('questions', 'archived'));
     }
 
     /**
@@ -87,7 +88,7 @@ class QuestionController extends Controller
     {
         $this->authorize('destroy', $question);
 
-        $question->delete();
+        $question->forceDelete();
 
         return redirect()->back();
     }
@@ -117,6 +118,25 @@ class QuestionController extends Controller
         $this->authorize('publish', $question);
 
         $question->update(['draft' => false]);
+
+        return redirect()->back();
+    }
+
+    public function archive(Question $question): RedirectResponse|Response
+    {
+        $this->authorize('archive', $question);
+
+        $question->delete();
+
+        return redirect()->back();
+    }
+
+    public function restore(int $id): RedirectResponse|Response
+    {
+        $question = Question::withTrashed()->find($id);
+        $this->authorize('archive', $question);
+
+        $question->restore();
 
         return redirect()->back();
     }
