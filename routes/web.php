@@ -36,6 +36,7 @@ Route::middleware('auth')->group(function () {
     Route::post('question/like/{question}', [QuestionController::class, 'like'])->name('question.like');
     Route::post('question/unlike/{question}', [QuestionController::class, 'unlike'])->name('question.unlike');
     Route::put('question/publish/{question}', [QuestionController::class, 'publish'])->name('question.publish');
+    Route::put('question/archive/{question}', [QuestionController::class, 'archive'])->name('question.archive');
 
 });
 
