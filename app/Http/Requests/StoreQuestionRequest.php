@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\SameQuestionRule;
 use Closure;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -31,6 +32,7 @@ class StoreQuestionRequest extends FormRequest
                         $fail("question must end with a question mark");
                     }
                 },
+                new SameQuestionRule(),
             ],
         ];
     }
