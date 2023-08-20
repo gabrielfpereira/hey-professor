@@ -14,15 +14,15 @@
                         @csrf
                         <input type="text" name="search" value="{{ request()->search }}" placeholder="Search" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
 
-                        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Search</button>
+                        <button type="submit" class="px-4 py-2 font-bold text-white bg-blue-600 rounded-full hover:bg-blue-700">Search</button>
                     </form>
                     
                     <hr class="my-4 border-gray-600">
 
                     <div class="space-y-4">
                         
+                        <h2>List of Questions</h2>
                         @forelse ($questions as $question)
-                            <h2>List of Questions</h2>
                             <x-question :question="$question" />
                         @empty
                             <x-draw.search />
